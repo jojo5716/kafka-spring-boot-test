@@ -20,14 +20,14 @@ class UserController {
         props["bootstrap.servers"] = "localhost:9092"
         props["key.serializer"] = StringSerializer::class.java
         props["value.serializer"] = StringSerializer::class.java
+
         return KafkaProducer<String, String>(props)
     }
+
     @PostMapping("/users/")
     fun updateStatus(@RequestBody userData: UserData): ResponseEntity<HttpStatus> {
         val producer = createProducer()
-        val future = producer.send(ProducerRecord("Topic1", "1", "Hello world"))
-//        future.get()
-
+        producer.send(ProducerRecord("Topic1", "1", "Hello world"))
 
         return ResponseEntity(HttpStatus.OK)
     }

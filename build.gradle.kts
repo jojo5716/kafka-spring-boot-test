@@ -23,6 +23,7 @@ dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
 //	implementation("com.fasterxml.jackson.core:jackson-databind:2.9.6")
 	implementation("org.apache.kafka:kafka-clients:2.6.0")
+	implementation("org.apache.kafka:kafka-streams:2.6.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
