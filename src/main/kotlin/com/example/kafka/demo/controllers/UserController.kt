@@ -1,33 +1,27 @@
 package com.example.kafka.demo.controllers
 
-import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.Producer
-import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.kafka.common.serialization.StringSerializer
+import com.example.kafka.demo.KafkaProducer
+import com.example.kafka.demo.dtos.EmployeeDto
+import org.apache.logging.log4j.LogManager
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
-
-data class UserData(val username: String)
+import javax.validation.Valid
 
 @RestController
-class UserController {
-    private fun createProducer(): Producer<String, String> {
-        val props = Properties()
-        props["bootstrap.servers"] = "localhost:9092"
-        props["key.serializer"] = StringSerializer::class.java
-        props["value.serializer"] = StringSerializer::class.java
+class UserController(private val kafkaProducer: KafkaProducer) {
+    private val logger = LogManager.getLogger(javaClass)
 
-        return KafkaProducer<String, String>(props)
-    }
+    private val TOPIC_NAME = "employee"
 
-    @PostMapping("/users/")
-    fun updateStatus(@RequestBody userData: UserData): ResponseEntity<HttpStatus> {
-        val producer = createProducer()
-        producer.send(ProducerRecord("Topic1", "1", "Hello world"))
+    @GetMapping("/users/")
+    fun updateStatus(): ResponseEntity<HttpStatus> {
+        logger.info("Getting employee data ...")
+        val employee = EmployeeDto(id = "1", name = "Jhon", lastName = "Doe", salary = 2000.0)
+        kafkaProducer.produce(TOPIC_NAME, employee)
 
         return ResponseEntity(HttpStatus.OK)
     }
