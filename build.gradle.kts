@@ -26,6 +26,11 @@ dependencies {
 	implementation("org.apache.kafka:kafka-clients:3.2.1")
 	implementation("com.google.code.gson:gson:2.9.1")
 	implementation("org.springframework.boot:spring-boot-starter-validation:2.6.6")
+	implementation("org.apache.kafka:kafka-streams:3.0.0")
+
+	// JSON serialization
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 
 //	implementation("org.springframework.kafka:spring-kafka")
 //	implementation("com.fasterxml.jackson.core:jackson-databind:2.9.6")
@@ -45,3 +50,4 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
